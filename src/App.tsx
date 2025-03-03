@@ -159,19 +159,19 @@ function App() {
 
   return (
     <>
-      <Layout style={{ height: '100vh' }}>
+      <Layout className='content-initiative'>
         <Header style={{ display: 'flex', alignItems: 'center' }}>
           <img src={icon} />
           <h3>RollMaster</h3>
         </Header>
         <Content style={{ padding: '0 48px' }}>
           <article className='initiative-controls'>
-            <Button type="primary" onClick={showDrawer}>
+            <Button type="primary" className='primary-button' onClick={showDrawer}>
               Mais jogadores
             </Button>
             <aside>
               <h3 style={{ color: 'white' }}>{`Turno ${turnState.turn}`}</h3>
-              <Button type="primary" onClick={nextPlayer}>
+              <Button type="primary" className='primary-button' onClick={nextPlayer}>
                 Próximo jogador
               </Button>
             </aside>
@@ -180,12 +180,12 @@ function App() {
             itemLayout="horizontal"
             dataSource={player.players}
             className='initiative-list'
-            renderItem={(item, index) => (
+            renderItem={(item) => (
               <List.Item className='initiative-item' actions={[
                 <Button className='remove-player-button' type='text' shape='circle' icon={<DeleteOutlined />} key="list-remove" onClick={() => removePlayer(item.id)} />
               ]}>
                 <List.Item.Meta
-                  avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
+                  avatar={<Avatar src={`https://api.dicebear.com/9.x/initials/svg?seed=${item.name}`} />}
                   title={item.name}
                   description={`Iniciativa: ${item.initiative}`}
                 />
@@ -193,30 +193,33 @@ function App() {
             )}
           />
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          
-        </Footer>
+        <Footer></Footer>
       </Layout>
       
       <Drawer
-        title="Basic Drawer"
+        title="Adicione um jogador"
         placement='right'
         onClose={onClose}
         open={open}
         key='Drawer'
+        className='add-player-drawer'        
       >
-        <Input 
+        <Input
+          title='Nome do jogador ou inimigo'
           placeholder="Nome do jogador ou inimigo"
+          alt='Nome do jogador ou inimigo'
           value={form.name}
           onChange={(e) => dispatchForm({ type: "UPDATE_NAME", payload: e.target.value })}
         />
         <Input
+          title='Iniciativa do jogador ou inimigo'
           placeholder="Iniciativa do jogador ou inimigo" 
+          alt='Iniciativa do jogador ou inimigo'
           type='number' 
           value={form.initiative}
           onChange={(e) => dispatchForm({ type: "UPDATE_INITIATIVE", payload: Number(e.target.value) })}  
         />        
-        <Button type="primary" onClick={() => addNew()}>
+        <Button type="primary" className='primary-button' onClick={() => addNew()}>
           Adicionar
         </Button>
       </Drawer>
