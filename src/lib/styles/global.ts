@@ -35,86 +35,14 @@ export const GlobalStyle = createGlobalStyle`
 
   header, main, footer {
     background: var(--background-color)!important;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1px solid var(--border-color);
-
-    img {
-      width: 48px;
-    }
-
-    h3 {
-      color: var(--text-color);
-    }
-  }
+  }  
 
   main {
     max-width: 980px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    width: 100%;
-
-    .initiative-controls {
-      padding: 12px 0;
-      display: flex;
-      justify-content: space-between;
-
-      aside {
-        display: inherit;
-        align-items: center;
-        gap: 12px;
-
-        h3 {
-          color: var(--text-color);
-        }
-      }
-    }
-
-    .initiative-list {
-      padding: 12px 0;
-      ul {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-
-        .initiative-item {
-          padding: 12px;
-          border-radius: 8px;
-          background-color: none;
-          border: 1px solid var(--border-color)!important;
-
-          .ant-list-item-meta-title {
-            color: var(--text-color)!important;
-          }
-
-          .ant-list-item-meta-description {
-            color: var(--border-color)!important;
-          }
-
-          .remove-player-button {
-            svg {
-              color: var(--primary-color);
-            }
-
-            &:hover {
-              border-color: var(--primary-color);
-            }
-            
-          }
-        }
-
-        .initiative-item:first-of-type {
-          background-color: var(--secondary-color);
-                
-        }
-      }
-
-    }
+    width: 100%;    
   }
 
   .primary-button {
@@ -137,15 +65,15 @@ export const GlobalStyle = createGlobalStyle`
       border-bottom: 1px solid var(--border-color);
 
       button {
-        color: var(--primary-color);
+          color: var(--primary-color);
 
-        &:hover {
+          &:hover {
           color: var(--primary-color-dark);
-        }
+          }
       }
 
       .ant-drawer-title {
-        color: var(--text-color);
+          color: var(--text-color);
       }
     }
 
@@ -155,17 +83,17 @@ export const GlobalStyle = createGlobalStyle`
       gap: 16px;
 
       input {
-        background: transparent;
-        border-color: var(--border-color);
-        color: var(--border-color);
+          background: transparent;
+          border-color: var(--border-color);
+          color: var(--border-color);
 
-        &::placeholder {
+          &::placeholder {
           color: inherit;
-        }
+          }
 
-        &:hover {
+          &:hover {
           border-color: var(--primary-color-dark);
-        }
+          }
       }
     }
   }

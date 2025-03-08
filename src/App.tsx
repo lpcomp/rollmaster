@@ -1,14 +1,12 @@
-import { Avatar, List, Layout, Drawer, Button, Input } from 'antd';
+import { Layout } from 'antd';
 import { useState, useReducer } from 'react';
-import icon from './assets/images/icon.png';
-const { Header, Content, Footer } = Layout;
-import { DeleteOutlined } from '@ant-design/icons';
-
-type Player = {
-  id: number;
-  name: string;
-  initiative: number;
-};
+const { Content } = Layout;
+import { Player, Action } from './lib/types/initiative';
+import Header from './components/header';
+import ControlsInitiative from './components/controlsInitiative';
+import InitiativeList from './components/initiativeList';
+import Footer from './components/footer';
+import InitiativeMenu from './components/initiativeMenu';
 
 type PlayersState = {
   players: Player[];
@@ -32,18 +30,6 @@ type TurnState = {
 //     initiative: 15
 //   }
 // ];
-
-type Action =
-  | { type: "ADD_PLAYER"; payload: { id: number, name: string, initiative: number } }
-  | { type: "UPDATE_NAME"; payload: string }
-  | { type: "UPDATE_INITIATIVE"; payload: number }
-  | { type: "REMOVE_PLAYER"; payload: number }
-  | { type: "NEXT_TURN" }
-  | { type: "RESET_FORM" }
-  | { type: "SET_FIRST_PLAYER", payload: number }
-  | { type: "INCREMENT_TURN" }
-  | { type: "RESET_TURN" }
-
 
 function App() {
   const onePlayer = 1;
@@ -160,69 +146,15 @@ function App() {
   return (
     <>
       <Layout className='content-initiative'>
-        <Header style={{ display: 'flex', alignItems: 'center' }}>
-          <img src={icon} />
-          <h3>RollMaster</h3>
-        </Header>
+        <Header />
         <Content style={{ padding: '0 48px' }}>
-          <article className='initiative-controls'>
-            <Button type="primary" className='primary-button' onClick={showDrawer}>
-              Mais jogadores
-            </Button>
-            <aside>
-              <h3 style={{ color: 'white' }}>{`Turno ${turnState.turn}`}</h3>
-              <Button type="primary" className='primary-button' onClick={nextPlayer}>
-                Próximo jogador
-              </Button>
-            </aside>
-          </article>
-          <List
-            itemLayout="horizontal"
-            dataSource={player.players}
-            className='initiative-list'
-            renderItem={(item) => (
-              <List.Item className='initiative-item' actions={[
-                <Button className='remove-player-button' type='text' shape='circle' icon={<DeleteOutlined />} key="list-remove" onClick={() => removePlayer(item.id)} />
-              ]}>
-                <List.Item.Meta
-                  avatar={<Avatar src={`https://api.dicebear.com/9.x/initials/svg?seed=${item.name}`} />}
-                  title={item.name}
-                  description={`Iniciativa: ${item.initiative}`}
-                />
-              </List.Item>
-            )}
-          />
+          <ControlsInitiative turn={turnState.turn} showDrawer={showDrawer} nextPlayer={nextPlayer} />
+          <InitiativeList players={player.players} removePlayer={removePlayer} />          
         </Content>
-        <Footer></Footer>
+        <Footer />
       </Layout>
       
-      <Drawer
-        title="Adicione um jogador"
-        placement='right'
-        onClose={onClose}
-        open={open}
-        key='Drawer'
-        className='add-player-drawer'        
-      >
-        <Input
-          title='Nome do jogador ou inimigo'
-          placeholder="Nome do jogador ou inimigo"
-          alt='Nome do jogador ou inimigo'
-          value={form.name}
-          onChange={(e) => dispatchForm({ type: "UPDATE_NAME", payload: e.target.value })}
-        />
-        <Input
-          title='Iniciativa do jogador ou inimigo'
-          placeholder="Iniciativa do jogador ou inimigo" 
-          alt='Iniciativa do jogador ou inimigo'
-          type='number' 
-          value={form.initiative}
-          onChange={(e) => dispatchForm({ type: "UPDATE_INITIATIVE", payload: Number(e.target.value) })}  
-        />        
-        <Button type="primary" className='primary-button' onClick={() => addNew()}>
-          Adicionar
-        </Button>
-      </Drawer>
+      <InitiativeMenu openMenu={open} closeMenu={onClose} name={form.name} initiative={form.initiative} dispatchForm={dispatchForm} addNew={addNew} />      
     </>
   )
 }
