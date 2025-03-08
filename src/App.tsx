@@ -1,12 +1,13 @@
+import Header from './components/header';
+import Footer from './components/footer';
+import InitiativeList from './components/initiativeList';
+import InitiativeMenu from './components/initiativeMenu';
+import ControlsInitiative from './components/controlsInitiative';
+
 import { Layout } from 'antd';
 import { useState, useReducer } from 'react';
-const { Content } = Layout;
+import { usePlayer } from './lib/store/player';
 import { Player, Action } from './lib/types/initiative';
-import Header from './components/header';
-import ControlsInitiative from './components/controlsInitiative';
-import InitiativeList from './components/initiativeList';
-import Footer from './components/footer';
-import InitiativeMenu from './components/initiativeMenu';
 
 type PlayersState = {
   players: Player[];
@@ -33,7 +34,9 @@ type TurnState = {
 
 function App() {
   const onePlayer = 1;
+  const { Content } = Layout;
   const [open, setOpen] = useState(false);
+  const updatePlayerName = usePlayer((state) => state.updatePlayerName);
 
   const orderByIniciative = (players: Player[]): Player[] => {
     return players.sort((a, b) => b.initiative - a.initiative);
@@ -49,6 +52,7 @@ function App() {
         };
 
         const updatedPlayers = orderByIniciative([...state.players, newPlayer]);
+        updatePlayerName(updatedPlayers[0].name);
 
         return {
           players: updatedPlayers,
@@ -138,7 +142,8 @@ function App() {
 
   const nextPlayer = () => {
     dispatchPlayer({ type: 'NEXT_TURN' });
-    if (player.players.length > 0 && player.players[1]?.id === player.firstPlayerId) {
+    updatePlayerName(player.players[onePlayer].name);
+    if (player.players.length > 0 && player.players[onePlayer]?.id === player.firstPlayerId) {      
       dispatchTurn({ type: "INCREMENT_TURN" });
     }
   }
@@ -147,7 +152,7 @@ function App() {
     <>
       <Layout className='content-initiative'>
         <Header />
-        <Content style={{ padding: '0 48px' }}>
+        <Content>
           <ControlsInitiative turn={turnState.turn} showDrawer={showDrawer} nextPlayer={nextPlayer} />
           <InitiativeList players={player.players} removePlayer={removePlayer} />          
         </Content>

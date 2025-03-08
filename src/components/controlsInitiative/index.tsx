@@ -1,28 +1,32 @@
 import { Button } from 'antd';
 import { Content } from './styles';
+import { usePlayer } from '../../lib/store/player';
 
 type ControlsIniciativeProps = {
-    showDrawer: () => void;
     turn: number;
+    showDrawer: () => void;
     nextPlayer: () => void;
 }
 
 const ControlsInitiative = ({ showDrawer, turn, nextPlayer }: ControlsIniciativeProps) => {
-  return (
-    <Content>
-        <article className='initiative-controls'>
-            <Button type="primary" className='primary-button' onClick={showDrawer}>
-                Mais jogadores
-            </Button>
-            <aside>
-                <h3>{`Turno ${turn}`}</h3>
-                <Button type="primary" className='primary-button' onClick={nextPlayer}>
-                    Próximo jogador
+    const currentPlayerName = usePlayer((state) => state.currentPlayerName);
+
+    return (
+        <Content>
+            <article className='initiative-controls'>
+                <Button type="primary" className='primary-button' onClick={showDrawer}>
+                    Mais jogadores
                 </Button>
-            </aside>
-        </article>
-    </Content>
-  );
+                <p>{`Jogador da vez: ${currentPlayerName}`}</p>
+                <aside>
+                    <h3>{`Turno ${turn}`}</h3>
+                    <Button type="primary" className='primary-button' onClick={nextPlayer}>
+                        Próximo jogador
+                    </Button>
+                </aside>
+            </article>
+        </Content>
+    );
 }
 
 export default ControlsInitiative;

@@ -5,6 +5,12 @@ export const Content = styled.div`
       padding: 12px 0;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+
+      p {
+        color: var(--text-color);
+        padding-left: 10%;
+      }
 
       aside {
         display: inherit;

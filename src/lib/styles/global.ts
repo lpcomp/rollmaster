@@ -38,11 +38,12 @@ export const GlobalStyle = createGlobalStyle`
   }  
 
   main {
-    max-width: 980px;
-    margin: 0 auto;
+    width: 100%; 
     display: flex;
+    margin: 0 auto;
+    padding: 0 48px;
+    max-width: 980px;
     flex-direction: column;
-    width: 100%;    
   }
 
   .primary-button {
@@ -104,6 +105,10 @@ export const GlobalStyle = createGlobalStyle`
       flex-direction: column;
       align-items: stretch;
       gap: 16px;
+
+      p {
+        padding-left: 0!important;
+      }
 
       aside {
         flex-direction: inherit;

@@ -1,50 +1,61 @@
-# React + TypeScript + Vite
+# RollMaster
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um aplicativo desenvolvido em **React** com **Vite** e **TypeScript** para auxiliar em mesas de RPG, com funcionalidades como gerenciamento de iniciativa e exibição de personagens.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [React 19](https://react.dev/) - Biblioteca para construção de interfaces
+- [Vite](https://vitejs.dev/) - Ferramenta de build rápida
+- [TypeScript](https://www.typescriptlang.org/) - Tipagem estática para JavaScript
+- [Zustand](https://github.com/pmndrs/zustand) - Gerenciamento de estado leve e eficiente
+- [Styled Components](https://styled-components.com/) - Estilização com CSS-in-JS
+- [Ant Design](https://ant.design/) - Biblioteca de componentes UI
+- [ESLint](https://eslint.org/) - Linter para manter código padronizado
 
-## Expanding the ESLint configuration
+## 📦 Instalação
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Antes de tudo, certifique-se de ter o **Node.js** instalado.
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone este repositório:
+   ```sh
+   git clone https://github.com/lpcomp/rollmaster.git
+   ```
+2. Acesse o diretório do projeto:
+   ```sh
+   cd rollmaster
+   ```
+3. Instale as dependências:
+   ```sh
+   npm install
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## ▶️ Como Rodar o Projeto
+
+Para iniciar o ambiente de desenvolvimento:
+```sh
+npm run dev
 ```
+O projeto estará disponível em `http://localhost:5173/` (ou outra porta configurada pelo Vite).
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 🔧 Comandos Disponíveis
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- `npm run dev` - Inicia o ambiente de desenvolvimento
+- `npm run build` - Compila o projeto para produção
+- `npm run preview` - Visualiza a versão final após o build
+- `npm run lint` - Executa o linter para verificar padrões de código
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 🤝 Contribuindo
+
+1. Faça um fork do repositório
+2. Crie uma branch para sua feature (`git checkout -b minha-feature`)
+3. Faça commit das mudanças (`git commit -m 'Adiciona nova funcionalidade'`)
+4. Envie para o repositório remoto (`git push origin minha-feature`)
+5. Abra um Pull Request 🚀
+
+## 📜 Licença
+
+Este projeto está sob a licença MIT. Sinta-se livre para usá-lo e contribuir!
+
+---
+Desenvolvido por Luiz Vasconcelos ❤️🎲
+
