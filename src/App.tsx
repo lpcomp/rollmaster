@@ -1,14 +1,12 @@
-import { Avatar, List, Layout, Drawer, Button, Input } from 'antd';
+import { Layout } from 'antd';
 import { useState, useReducer } from 'react';
-import icon from './assets/images/icon.png';
-const { Header, Content, Footer } = Layout;
-import { DeleteOutlined } from '@ant-design/icons';
-
-type Player = {
-  id: number;
-  name: string;
-  initiative: number;
-};
+const { Content } = Layout;
+import { Player, Action } from './lib/types/initiative';
+import Header from './components/header';
+import ControlsInitiative from './components/controlsInitiative';
+import InitiativeList from './components/initiativeList';
+import Footer from './components/footer';
+import InitiativeMenu from './components/initiativeMenu';
 
 type PlayersState = {
   players: Player[];
@@ -32,18 +30,6 @@ type TurnState = {
 //     initiative: 15
 //   }
 // ];
-
-type Action =
-  | { type: "ADD_PLAYER"; payload: { id: number, name: string, initiative: number } }
-  | { type: "UPDATE_NAME"; payload: string }
-  | { type: "UPDATE_INITIATIVE"; payload: number }
-  | { type: "REMOVE_PLAYER"; payload: number }
-  | { type: "NEXT_TURN" }
-  | { type: "RESET_FORM" }
-  | { type: "SET_FIRST_PLAYER", payload: number }
-  | { type: "INCREMENT_TURN" }
-  | { type: "RESET_TURN" }
-
 
 function App() {
   const onePlayer = 1;
@@ -159,67 +145,16 @@ function App() {
 
   return (
     <>
-      <Layout style={{ height: '100vh' }}>
-        <Header style={{ display: 'flex', alignItems: 'center' }}>
-          <img src={icon} />
-          <h3>RollMaster</h3>
-        </Header>
+      <Layout className='content-initiative'>
+        <Header />
         <Content style={{ padding: '0 48px' }}>
-          <article className='initiative-controls'>
-            <Button type="primary" onClick={showDrawer}>
-              Mais jogadores
-            </Button>
-            <aside>
-              <h3 style={{ color: 'white' }}>{`Turno ${turnState.turn}`}</h3>
-              <Button type="primary" onClick={nextPlayer}>
-                Próximo jogador
-              </Button>
-            </aside>
-          </article>
-          <List
-            itemLayout="horizontal"
-            dataSource={player.players}
-            className='initiative-list'
-            renderItem={(item, index) => (
-              <List.Item className='initiative-item' actions={[
-                <Button className='remove-player-button' type='text' shape='circle' icon={<DeleteOutlined />} key="list-remove" onClick={() => removePlayer(item.id)} />
-              ]}>
-                <List.Item.Meta
-                  avatar={<Avatar src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`} />}
-                  title={item.name}
-                  description={`Iniciativa: ${item.initiative}`}
-                />
-              </List.Item>
-            )}
-          />
+          <ControlsInitiative turn={turnState.turn} showDrawer={showDrawer} nextPlayer={nextPlayer} />
+          <InitiativeList players={player.players} removePlayer={removePlayer} />          
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          
-        </Footer>
+        <Footer />
       </Layout>
       
-      <Drawer
-        title="Basic Drawer"
-        placement='right'
-        onClose={onClose}
-        open={open}
-        key='Drawer'
-      >
-        <Input 
-          placeholder="Nome do jogador ou inimigo"
-          value={form.name}
-          onChange={(e) => dispatchForm({ type: "UPDATE_NAME", payload: e.target.value })}
-        />
-        <Input
-          placeholder="Iniciativa do jogador ou inimigo" 
-          type='number' 
-          value={form.initiative}
-          onChange={(e) => dispatchForm({ type: "UPDATE_INITIATIVE", payload: Number(e.target.value) })}  
-        />        
-        <Button type="primary" onClick={() => addNew()}>
-          Adicionar
-        </Button>
-      </Drawer>
+      <InitiativeMenu openMenu={open} closeMenu={onClose} name={form.name} initiative={form.initiative} dispatchForm={dispatchForm} addNew={addNew} />      
     </>
   )
 }
