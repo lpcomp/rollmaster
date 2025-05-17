@@ -6,11 +6,12 @@ type InitiativeMenuProps = {
     openMenu: boolean;
     name: string;
     initiative: number;
+    lifePoints: number;
     dispatchForm: (action: Action) => void;
     addNew: () => void;
 }
 
-const InitiativeMenu = ({ closeMenu, openMenu, name, initiative, dispatchForm, addNew }: InitiativeMenuProps) => {
+const InitiativeMenu = ({ closeMenu, openMenu, name, initiative, lifePoints, dispatchForm, addNew }: InitiativeMenuProps) => {
   return (
     <Drawer
         title="Adicione um jogador"
@@ -34,7 +35,15 @@ const InitiativeMenu = ({ closeMenu, openMenu, name, initiative, dispatchForm, a
             type='number' 
             value={initiative}
             onChange={(e) => dispatchForm({ type: "UPDATE_INITIATIVE", payload: Number(e.target.value) })}  
-        />        
+        />
+        <Input
+            title='Pontos de vida do jogador ou inimigo'
+            placeholder="Pontos de vida do jogador ou inimigo" 
+            alt='Pontos de vida do jogador ou inimigo'
+            type='number' 
+            value={lifePoints}
+            onChange={(e) => dispatchForm({ type: "UPDATE_LIFE_POINTS", payload: Number(e.target.value) })}
+        /> 
         <Button type="primary" className='primary-button' onClick={() => addNew()}>
             Adicionar
         </Button>

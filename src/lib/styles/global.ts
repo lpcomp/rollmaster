@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     --text-color: #fbfbfb;
     --primary-color: #23a79a;
     --primary-color-dark: #20978b;
+    --active-primary-color: #0f4a44;
     --secondary-color: #373737;
     --border-color: #7f7f7f;
     --error-color: #f54336;
@@ -41,7 +42,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%; 
     display: flex;
     margin: 0 auto;
-    padding: 0 48px;
+    padding: 0 24px;
     max-width: 980px;
     flex-direction: column;
   }
@@ -51,7 +52,11 @@ export const GlobalStyle = createGlobalStyle`
 
     &:hover {
       background: var(--primary-color-dark)!important;
-      border-color: var(--border-color);
+      border-color: var(--border-color)!important;
+    }
+
+    &:active {
+      background: var(--active-primary-color)!important;
     }
   }
 

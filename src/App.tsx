@@ -49,6 +49,7 @@ function App() {
           id: action.payload.id,
           name: action.payload.name,
           initiative: Number(action.payload.initiative),
+          lifePoints: Number(action.payload.lifePoints)
         };
 
         const updatedPlayers = orderByIniciative([...state.players, newPlayer]);
@@ -57,7 +58,24 @@ function App() {
         return {
           players: updatedPlayers,
           firstPlayerId: updatedPlayers[0]?.id ?? null
-      };
+        };
+      }
+
+      case "UPDATE_PLAYER_LIFE_POINTS": {
+        const updatedPlayers = state.players.map(player => {
+          if (player.id === action.payload.id) {
+            return {
+              ...player,
+              lifePoints: Number(action.payload.lifePoints)
+            };
+          }
+          return player;
+        });
+      
+        return {
+          ...state,
+          players: updatedPlayers
+        };
       }
 
       case "REMOVE_PLAYER": {
@@ -85,7 +103,7 @@ function App() {
     }
   }
 
-  const formReducer = (state: { id: number; name: string; initiative: number }, action: Action) => {
+  const formReducer = (state: { id: number; name: string; initiative: number; lifePoints: number }, action: Action) => {
     switch (action.type) {
       case "UPDATE_NAME":
         return { ...state, name: action.payload };
@@ -93,8 +111,11 @@ function App() {
       case "UPDATE_INITIATIVE":
         return { ...state, initiative: action.payload };
 
+      case "UPDATE_LIFE_POINTS":
+        return { ...state, lifePoints: action.payload };
+
       case "RESET_FORM":
-        return { id: 0, name: "", initiative: 0 };
+        return { id: 0, name: "", initiative: 0, lifePoints: 0 };
 
       default:
         return state;
@@ -118,7 +139,7 @@ function App() {
   };
 
   const [player, dispatchPlayer] = useReducer(playersReducer, { players: [], firstPlayerId: null });
-  const [form, dispatchForm] = useReducer(formReducer, {  id: 0, name: "", initiative: 0 });
+  const [form, dispatchForm] = useReducer(formReducer, {  id: 0, name: "", initiative: 0, lifePoints: 0 });
   const [turnState, dispatchTurn] = useReducer(turnReducer, { turn: 1, firstPlayerId: null });
 
   const showDrawer = () => {
@@ -131,7 +152,7 @@ function App() {
 
   const addNew = () => {
     const newPlayerId = Date.now();
-    const newPlayer = { id: newPlayerId, name: form.name, initiative: form.initiative };
+    const newPlayer = { id: newPlayerId, name: form.name, initiative: form.initiative, lifePoints: form.lifePoints };
     dispatchPlayer({ type: "ADD_PLAYER", payload: newPlayer });
     dispatchForm({ type: "RESET_FORM" });
   }
@@ -154,12 +175,20 @@ function App() {
         <Header />
         <Content>
           <ControlsInitiative turn={turnState.turn} showDrawer={showDrawer} nextPlayer={nextPlayer} />
-          <InitiativeList players={player.players} removePlayer={removePlayer} />          
+          <InitiativeList players={player.players} removePlayer={removePlayer} controlPlayer={dispatchPlayer} />          
         </Content>
         <Footer />
       </Layout>
       
-      <InitiativeMenu openMenu={open} closeMenu={onClose} name={form.name} initiative={form.initiative} dispatchForm={dispatchForm} addNew={addNew} />      
+      <InitiativeMenu 
+        openMenu={open} 
+        addNew={addNew}
+        name={form.name} 
+        closeMenu={onClose} 
+        initiative={form.initiative}
+        lifePoints={form.lifePoints}
+        dispatchForm={dispatchForm} 
+      />      
     </>
   )
 }
